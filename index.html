@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>콜신 앱</title>
+<style>
+  body { font-family: sans-serif; margin: 0; padding: 0; }
+  .page { display: none; padding: 20px; }
+  .active { display: block; }
+  .footer { 
+    position: fixed; bottom: 0; left: 0; right: 0; 
+    display: flex; justify-content: space-around; 
+    border-top: 1px solid #ccc; background: #f9f9f9; padding: 10px 0;
+  }
+  .input-box { margin-bottom: 10px; }
+  button { padding: 10px; font-size: 16px; }
+  .card { border: 1px solid #ccc; padding: 10px; margin: 5px 0; border-radius: 8px; background: #fff; }
+</style>
+</head>
+<body>
+
+<div id="dashboard" class="page active">
+  <h2>Dashboard</h2>
+  <div class="card">누적 매출: <span id="totalAmount">0</span> 원</div>
+  <div class="card">건수: <span id="totalCount">0</span> 건</div>
+</div>
+
+<div id="callInput" class="page">
+  <h2>Call Input</h2>
+  <div class="input-box">
+    <input type="number" id="amountInput" placeholder="금액 입력" />
+  </div>
+  <button onclick="addCall()">저장</button>
+</div>
+
+<div id="strategy" class="page">
+  <h2>Realtime Strategy</h2>
+  <p>실시간 전략</p>
+  <div class="card">누적 매출: <span id="totalAmountStrategy">0</span> 원</div>
+  <div class="card">건수: <span id="totalCountStrategy">0</span> 건</div>
+</div>
+
+<div class="footer">
+  <button onclick="showPage('dashboard')">Dashboard</button>
+  <button onclick="showPage('callInput')">Call Input</button>
+  <button onclick="showPage('strategy')">Strategy</button>
+</div>
+
+<script>
+let totalAmount = 0;
+let totalCount = 0;
+
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+}
+
+function addCall() {
+  const input = document.getElementById('amountInput');
+  const value = parseInt(input.value) || 0;
+  totalAmount += value;
+  totalCount += 1;
+  input.value = '';
+
+  // Update dashboard
+  document.getElementById('totalAmount').textContent = totalAmount;
+  document.getElementById('totalCount').textContent = totalCount;
+
+  // Update strategy
+  document.getElementById('totalAmountStrategy').textContent = totalAmount;
+  document.getElementById('totalCountStrategy').textContent = totalCount;
+}
+</script>
+
+</body>
+</html>
